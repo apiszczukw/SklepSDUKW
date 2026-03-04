@@ -1,4 +1,6 @@
-﻿namespace SklepSDUKW.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SklepSDUKW.Models
 {
     public class Category
     {
@@ -6,6 +8,7 @@
 
         public string Name { get; set; }
 
+        [StringLength(500)]
         public string Desc { get; set; }
 
         public ICollection<Film> Films { get; set; }
