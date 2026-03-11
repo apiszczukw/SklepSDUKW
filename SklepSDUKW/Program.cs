@@ -28,8 +28,16 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+
+app.MapControllerRoute(
+    name: "Footer",
+    pattern: "Info/{name}",
+    defaults: new { controller = "Home", action = "FooterSites" }
+    );
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
