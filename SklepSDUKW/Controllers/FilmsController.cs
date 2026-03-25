@@ -20,11 +20,19 @@ namespace SklepSDUKW.Controllers
 
         public IActionResult CategoryFilms(string categoryName)
         {
-            var category = db.Categories.Include("Films").Where(c => c.Name.ToUpper() == categoryName.ToUpper()).Single();
+            var category = db.Categories.Include(c => c.Films).Where(c => c.Name.ToUpper() == categoryName.ToUpper()).Single();
 
             var films = category.Films.ToList();
 
             return View(films);
+        }
+
+        public IActionResult Details(int filmId)
+        {
+            var film = db.Films.Find(filmId);
+            db.Categories.Find(film?.CategoryId);
+
+            return View(film);
         }
     }
 }
