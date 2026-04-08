@@ -27,6 +27,13 @@ namespace SklepSDUKW.Controllers
             return View(films);
         }
 
+        public IActionResult AllFilms()
+        {
+            var films = db.Films.OrderBy(c=>c.CategoryId).ThenBy(t => t.Title).ToList();
+
+            return View(films);
+        }
+
         public IActionResult Details(int filmId)
         {
             var film = db.Films.Find(filmId);
