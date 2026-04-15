@@ -21,3 +21,7 @@ tbody a
 .posters {
     width: 10rem; 
 }
+
+form > div {
+    margin: 1.1rem;
+}

@@ -26,8 +26,11 @@
 	{
 		<div class="form-check-input">
 
-		@Html.RadioButtonFor(m => m.Film.CategoryId, category.Id) @category.Name
-		<br />
+		@Html.RadioButtonFor(m => m.Film.CategoryId, category.Id) 
+		</div>
+		<div class="form-check-label">
+				@Html.LabelFor(m => m.Film.CategoryId, category.Name)
+		
 		</div>
 	}
 	</div>
@@ -36,6 +39,8 @@
 
 	@Html.TextBoxFor(m => m.Poster, new { type = "file", @class = "form-control-file" })
 
-	<br />
+	<div class="form-group">
+
 	<button class="btn btn-primary" type="submit">Wyślij</button>
+	</div>
 }
