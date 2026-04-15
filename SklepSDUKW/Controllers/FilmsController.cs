@@ -1,16 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SklepSDUKW.DAL;
+using SklepSDUKW.Models.ViewModels;
 
 namespace SklepSDUKW.Controllers
 {
     public class FilmsController : Controller
     {
         FilmsContext db;
+        IWebHostEnvironment hostEnvironment;
 
-        public FilmsController(FilmsContext db)
+        public FilmsController(FilmsContext db, IWebHostEnvironment hostEnvironment)
         {
             this.db = db;
+            this.hostEnvironment = hostEnvironment;
         }
 
         public IActionResult Index()
@@ -40,6 +43,37 @@ namespace SklepSDUKW.Controllers
             db.Categories.Find(film?.CategoryId);
 
             return View(film);
+        }
+
+        [HttpGet]
+        public IActionResult AddFilm()
+        {
+            var model = new AddFilmViewModel();
+
+            model.Categories = db.Categories.ToList();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult AddFilm(AddFilmViewModel model)
+        {
+
+            var picFolder = Path.Combine(hostEnvironment.WebRootPath, "content", "grafiki");
+
+            var posterName = Guid.NewGuid() + "_" + model.Poster.FileName;
+
+            var filePath = Path.Combine(picFolder, posterName);
+
+            model.Poster.CopyTo(new FileStream(filePath, FileMode.Create));
+
+            model.Film.Poster = posterName;
+
+            db.Films.Add(model.Film);
+
+            db.SaveChanges();
+
+            return RedirectToAction("AllFilms");
         }
     }
 }
