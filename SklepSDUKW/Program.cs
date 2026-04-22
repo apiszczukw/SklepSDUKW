@@ -8,7 +8,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<FilmsContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("localDB")));
 
-
+builder.Services.AddSession();
 
 
 var app = builder.Build();
@@ -28,6 +28,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
 
 app.MapControllerRoute(
     name: "Footer",
