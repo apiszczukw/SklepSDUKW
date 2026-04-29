@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SklepSDUKW.DAL;
 using SklepSDUKW.Infrastructure;
+using SklepSDUKW.Models.ViewModels;
 
 namespace SklepSDUKW.Controllers
 {
@@ -28,6 +29,19 @@ namespace SklepSDUKW.Controllers
             CartManager.AddToCart(HttpContext.Session, db, id);
 
             return RedirectToAction("Index");
+        }
+
+
+        public IActionResult RemoveFromCart(int id)
+        {
+            var model = new RemoveViewModel()
+            {
+                itemId = id,
+                itemQuantity = CartManager.RemoveFromCart(HttpContext.Session, id),
+                cartValue = CartManager.GetCartTotalValue(HttpContext.Session)
+            };
+
+            return Json(model);
         }
     }
 }

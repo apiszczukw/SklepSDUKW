@@ -57,5 +57,31 @@ namespace SklepSDUKW.Infrastructure
             return cart.Sum(c => c.Quantity * c.Value);
         }
 
+        public static int RemoveFromCart(ISession session, int id)
+        {
+            var cart = GetItems(session);
+
+            var thisFilm = cart.Find(f => f.Film.Id == id);
+
+            if (thisFilm == null) return 0;
+
+            int count = 0;
+
+            if(thisFilm.Quantity > 1)
+            {
+                thisFilm.Quantity--;
+
+                count = thisFilm.Quantity;
+            }
+            else
+            {
+                cart.Remove(thisFilm);
+            }
+
+            session.SetObjectAsJson(Consts.CartSessionKey, cart);
+
+            return count;
+        }
+
     }
 }
